@@ -1,0 +1,8 @@
+numpy
+scipy
+numexpr
+Cython
+tables
+ffmpeg
+wxPython
+psychopy
