@@ -5,4 +5,6 @@ Cython
 tables
 ffmpeg
 wxPython
+SpeechRecognition
+pyfilesec
 psychopy
