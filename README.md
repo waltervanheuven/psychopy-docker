@@ -44,8 +44,12 @@ defaults read org.macosforge.xquartz.X11 enable_iglx
 # defaults write org.xquartz.X11 enable_iglx -bool YES
 # defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
 
-# 
+# xhost + should start XQuartx on macOS
 xhost +
+
+# set DISPLAY, replace <computer IP address> with IP address
+# find IP address computer with: `ifconfig en0`
+export DISPLAY=<computer IP address>:0
 
 # run docker container
 docker run --rm -it -v $(pwd):/usr/src/psychopy --env="DISPLAY" --net=host psychopy
