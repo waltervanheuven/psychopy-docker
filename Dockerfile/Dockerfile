@@ -7,17 +7,19 @@ WORKDIR /usr/src
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get upgrade -y && \
-    apt-get install -y python3-pip && \
+    apt-get install -y xpra xserver-xorg-video-dummy xvfb xauth libgl1-mesa-dri && \
+    apt-get install -y libportaudio2 libwebkit2gtk-4.0-37 libasound2-dev alsa-utils alsa-oss && \
+    apt-get install -y python3-pip python-xlib && \
     apt-get install -y python3.8-venv && \
     apt-get install -y git wget && \
-    apt-get install -y libusb-1.0-0-dev libasound2-dev libsndfile1-dev && \
+    apt-get install -y libusb-1.0-0-dev libsndfile1-dev && \
     apt-get install -y portaudio19-dev python3-pyaudio libportmidi-dev liblo-dev && \
     apt-get install -y pulseaudio pulseaudio-utils && \
     apt-get install -y python3-pygame && \
     apt-get install -y libhdf5-serial-dev && \
     apt-get install -y libx11-dev libglib2.0-dev libgtk-3-dev libtiff-dev && \
     apt-get install -y qt5-default ffmpeg && \
-    apt-get install -y libgl1-mesa-glx mesa-utils x11-xserver-utils dbus-x11 xauth && \
+    apt-get install -y libgl1-mesa-glx mesa-utils x11-xserver-utils dbus-x11 && \
     apt-get install -y firefox libpci3
 
 # create python3 VENV

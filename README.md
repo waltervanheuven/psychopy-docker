@@ -6,7 +6,7 @@ Container should work on Intel (x64) and Arm (aarch64/ARM64/Apple Silicon) compu
 
 Note. This is work in progress. Tested so far only on an M1 Mac.
 
-## 1. Creating docker image
+## 1. Create docker image
 
 ```bash
 docker build -t psychopy -f Dockerfile/Dockerfile .
@@ -22,7 +22,7 @@ Download and install latest [XQuartz](https://www.xquartz.org).
 
 Enable `Allow connections from network clients` in X11 Preferences -> Security.
 
-Add `XAutLocation` to `./ssh.config`:
+Add `XAuthLocation` to `./ssh.config`:
 
 ```txt
 XAuthLocation /opt/X11/bin/xauth
@@ -64,10 +64,10 @@ Type in `Terminal` app:
     export DISPLAY=<computer IP address>:0
     ```
 
-4. Run docker container.
+4. Run docker container with shared folder and network
 
     ```sh
-    docker run --rm -it -v $(pwd):/usr/src/psychopy --env="DISPLAY" --net=host psychopy
+    docker run --rm -it -v $(pwd):/usr/src/sharedfolder --env="DISPLAY" --net=host psychopy
     ```
 
     PsychoPy should now start.
