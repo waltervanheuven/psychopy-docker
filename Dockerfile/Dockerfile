@@ -18,7 +18,7 @@ RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y libx11-dev libglib2.0-dev libgtk-3-dev libtiff-dev && \
     apt-get install -y qt5-default ffmpeg && \
     apt-get install -y libgl1-mesa-glx mesa-utils x11-xserver-utils dbus-x11 xauth && \
-    apt-get install -y firefox
+    apt-get install -y firefox libpci3
 
 # create python3 VENV
 RUN python3 -m venv --system-site-packages ~/venv/py3

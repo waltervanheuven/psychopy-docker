@@ -6,7 +6,7 @@ Container should work on Intel (x64) and Arm (aarch64 / Apple Silicon) computers
 
 Note. This is work in progress. Tested so far only on an M1 Mac.
 
-## Creating docker image
+## 1. Creating docker image
 
 ```bash
 docker build -t psychopy -f Dockerfile/Dockerfile .
@@ -14,7 +14,7 @@ docker build -t psychopy -f Dockerfile/Dockerfile .
 
 Please note that this image will take a while to create.
 
-## Install X11
+## 2. Install X11
 
 ### macOS
 
@@ -28,34 +28,88 @@ Add `XAutLocation` to `./ssh.config`:
 XAuthLocation /opt/X11/bin/xauth
 ```
 
-## Start PsychoPy in Docker container
+## 3. Start PsychoPy in Docker container
 
 Start PsychoPy in docker container with shared local folder and network.
 
-In `Terminal`:
+Type in `Terminal` app:
 
-```bash
-# mac
-# check if enable_iglx is 1
-defaults read org.xquartz.X11 enable_iglx
-defaults read org.macosforge.xquartz.X11 enable_iglx
+1. Check enable_iglx is 1
 
-# both should be 1, if 0 set them to 1
-# defaults write org.xquartz.X11 enable_iglx -bool YES
-# defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
+    ```sh
+    # mac
+    # check if enable_iglx is 1
+    defaults read org.xquartz.X11 enable_iglx
+    defaults read org.macosforge.xquartz.X11 enable_iglx
 
-# xhost + should start XQuartx on macOS
-xhost +
+    # both should be 1, if 0 set them to 1
+    # defaults write org.xquartz.X11 enable_iglx -bool YES
+    # defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
+    ```
 
-# set DISPLAY, replace <computer IP address> with IP address
-# find IP address computer with: `ifconfig en0`
-export DISPLAY=<computer IP address>:0
+2. Enable Xhost, which should start `XQuartz` on macOS
 
-# run docker container
-docker run --rm -it -v $(pwd):/usr/src/psychopy --env="DISPLAY" --net=host psychopy
+    ```sh
+    xhost +
+    ```
+
+3. Set DISPLAY variable to computer IP address
+
+    Replace <> with IP address. Find IP address computer with `ifconfig`.
+
+    ```sh
+    # https://stackoverflow.com/questions/8529181/which-terminal-command-to-get-just-ip-address-and-nothing-else
+    ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2
+
+    export DISPLAY=<computer IP address>:0
+    ```
+
+4. Run docker container.
+
+    ```sh
+    docker run --rm -it -v $(pwd):/usr/src/psychopy --env="DISPLAY" --net=host psychopy
+    ```
+
+    PsychoPy should now start.
+
+## Audio
+
+## Pass audio through to macOS
+
+To get audio from the container passing through to macOS, you need to install `pulseaudio`.
+
+```sh
+brew install pulseaudio
+
+# start pulseaudio daemon
+pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon
 ```
 
-PsychoPy should now start. 
+Start container then with this command.
+
+```sh
+docker run --rm -it \
+    -e PULSE_SERVER=docker.for.mac.localhost \
+    -v ~/.config/pulse:/home/pulseaudio/.config/pulse \
+    -v $(pwd):/usr/src/psychopy \
+    --env="DISPLAY" \
+    --net=host \
+    psychopy
+```
+
+Error...
+
+```txt
+Normally all extra capabilities would be dropped now, but that's impossible because PulseAudio was built without capabilities support
+```
+
+```sh
+pico $(brew --prefix pulseaudio)/etc/pulse/default.pa
+```
+
+Still not working...
+
+[Expose audio from docker info](https://stackoverflow.com/questions/40136606/how-to-expose-audio-from-docker-container-to-a-mac)
 
 ## Useful other commands
 
@@ -65,10 +119,4 @@ PsychoPy should now start.
 
     ```sh
     docker run --rm -it -v $(pwd):/usr/src/psychopy --env="DISPLAY" --net=host psychopy bash
-    ```
-
-- Remove docker build cache and unused containers/images:
-
-    ```sh
-    docker system prune
     ```
