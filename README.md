@@ -2,7 +2,7 @@
 
 Instructions to create a [docker](https://www.docker.com) container that runs the latest version (v2021.2.3) of [PsychoPy](https://www.psychopy.org).
 
-Container should work on Intel (x64) and Arm (aarch64 / Apple Silicon) computers.
+Container should work on Intel (x64) and Arm (aarch64/ARM64/Apple Silicon) computers.
 
 Note. This is work in progress. Tested so far only on an M1 Mac.
 
