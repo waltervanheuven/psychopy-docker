@@ -85,19 +85,15 @@ brew install pulseaudio
 # find audio output sources
 pacmd list-sinks
 
-# set audio source
+# set default audio output on macOS
 pacmd set-default-sink 1
 
 # start pulseaudio daemon
 pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon
 
-# test pulseaudio on mac
-paplay laser.wav
-
 # defaults can also be changed in file `default.pa` 
 # edit file to change pulseaudio settings
 pico $(brew --prefix pulseaudio)/etc/pulse/default.pa
-
 ```
 
 Start container then with this command.
