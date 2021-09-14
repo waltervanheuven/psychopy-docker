@@ -55,13 +55,13 @@ Type in `Terminal` app:
 
 3. Set DISPLAY variable to computer IP address
 
-    Replace <> with IP address. Find IP address computer with `ifconfig`.
+    Replace XXX.XXX.XXX.XXX with IP address of host computer. Find IP address of your computer with `ifconfig`.
 
     ```sh
     # https://stackoverflow.com/questions/8529181/which-terminal-command-to-get-just-ip-address-and-nothing-else
     ifconfig | grep "inet " | grep -v 127.0.0.1 | cut -d\  -f2
 
-    export DISPLAY=<computer IP address>:0
+    export DISPLAY=XXX.XXX.XXX.XXX:0
     ```
 
 4. Run docker container with shared folder and network
@@ -81,37 +81,43 @@ To get audio from the container passing through to macOS, you need to install `p
 ```sh
 brew install pulseaudio
 
+# https://askubuntu.com/questions/14077/how-can-i-change-the-default-audio-device-from-command-line
+# find audio output sources
+pacmd list-sinks
+
+# set audio source
+pacmd set-default-sink 1
+
 # start pulseaudio daemon
 pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon
+
+# test pulseaudio on mac
+paplay laser.wav
+
+# defaults can also be changed in file `default.pa` 
+# edit file to change pulseaudio settings
+pico $(brew --prefix pulseaudio)/etc/pulse/default.pa
+
 ```
 
 Start container then with this command.
 
-```sh
-docker run --rm -it \
-    -e PULSE_SERVER=docker.for.mac.localhost \
-    -v ~/.config/pulse:/home/pulseaudio/.config/pulse \
-    -v $(pwd):/usr/src/psychopy \
-    --env="DISPLAY" \
-    --net=host \
-    psychopy
-```
-
-Error...
-
-```txt
-Normally all extra capabilities would be dropped now, but that's impossible because PulseAudio was built without capabilities support
-```
+Note: replace XXX.XXX.XXX.XXX with ip address of your computer (host).
 
 ```sh
-pico $(brew --prefix pulseaudio)/etc/pulse/default.pa
+# set pulse server address
+export PULSE_SERVER=XXX.XXX.XXX.XXX
+
+docker run --rm -it -v $(pwd):/usr/src/sharedfolder -e PULSE_SERVER=$PULSE_SERVER -e PULSE_COOKIE=/home/pulseaudio/.config/pulse/cookie -v ~/.config/pulse/:/home/pulseaudio/.config/pulse/ --env="DISPLAY" --net=host psychopy
 ```
 
-Still not working...
+Audio not yet working in PsychoPy but it works in other apps (e.g. Firefox). Check audio in Firefox running in the same Docker container.
 
-[Expose audio from docker info](https://stackoverflow.com/questions/40136606/how-to-expose-audio-from-docker-container-to-a-mac)
+```sh
+docker run --rm -it -v $(pwd):/usr/src/sharedfolder -e PULSE_SERVER=$PULSE_SERVER -e PULSE_COOKIE=/home/pulseaudio/.config/pulse/cookie -v ~/.config/pulse/:/home/pulseaudio/.config/pulse/ --env="DISPLAY" --net=host psychopy firefox
+```
 
-## Useful other commands
+## Debug
 
 - Debug container if starting psychopy fails
 

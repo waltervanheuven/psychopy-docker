@@ -38,6 +38,9 @@ RUN cd tmp && . ~/venv/py3/bin/activate && \
     cd pyo && \
     python setup.py install
 
+# fix sound issues
+COPY asound.conf /etc/asound.conf
+
 # install remaining dependencies and PsychoPy
 COPY requirements.txt ./
 RUN . ~/venv/py3/bin/activate && pip install --no-cache-dir -r requirements.txt
