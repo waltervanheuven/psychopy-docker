@@ -104,13 +104,13 @@ Note: replace XXX.XXX.XXX.XXX with ip address of your computer (host).
 # set pulse server address
 export PULSE_SERVER=XXX.XXX.XXX.XXX
 
-docker run --rm -it -v $(pwd):/usr/src/sharedfolder -e PULSE_SERVER=$PULSE_SERVER -e PULSE_COOKIE=/home/pulseaudio/.config/pulse/cookie -v ~/.config/pulse/:/home/pulseaudio/.config/pulse/ --env="DISPLAY" --net=host psychopy
+docker run --rm -it -v $(pwd):/usr/src/sharedfolder -v /tmp/.X11-unix:/tmp/.X11-unix -e PULSE_SERVER=$PULSE_SERVER -e PULSE_COOKIE=/home/pulseaudio/.config/pulse/cookie -v ~/.config/pulse/:/home/pulseaudio/.config/pulse/ --env="DISPLAY" --net=host psychopy
 ```
 
 Audio not yet working in PsychoPy but it works in other apps (e.g. Firefox). Check audio with Firefox running in the same Docker container (e.g. watch video on youtube).
 
 ```sh
-docker run --rm -it -v $(pwd):/usr/src/sharedfolder -e PULSE_SERVER=$PULSE_SERVER -e PULSE_COOKIE=/home/pulseaudio/.config/pulse/cookie -v ~/.config/pulse/:/home/pulseaudio/.config/pulse/ --env="DISPLAY" --net=host psychopy firefox
+docker run --rm -it -v $(pwd):/usr/src/sharedfolder -v /tmp/.X11-unix:/tmp/.X11-unix -e PULSE_SERVER=$PULSE_SERVER -e PULSE_COOKIE=/home/pulseaudio/.config/pulse/cookie -v ~/.config/pulse/:/home/pulseaudio/.config/pulse/ --env="DISPLAY" --net=host psychopy firefox
 ```
 
 ## Issues
