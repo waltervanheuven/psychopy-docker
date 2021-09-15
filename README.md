@@ -34,7 +34,7 @@ Start PsychoPy in docker container with shared local folder and network.
 
 Type in `Terminal` app:
 
-1. Check enable_iglx is 1
+1. enable_iglx (needed?)
 
     ```sh
     # mac
@@ -42,8 +42,8 @@ Type in `Terminal` app:
     defaults read org.xquartz.X11 enable_iglx
     defaults read org.macosforge.xquartz.X11 enable_iglx
 
-    # both should be 1, if 0 set them to 1
-    # defaults write org.xquartz.X11 enable_iglx -bool YES
+    # both should be 1? if 0 set them to 1
+    # defaults write org.xquartz.X11 enable_iglx -bool true
     # defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
     ```
 
@@ -67,7 +67,7 @@ Type in `Terminal` app:
 4. Run docker container with shared folder and network
 
     ```sh
-    docker run --rm -it -v $(pwd):/usr/src/sharedfolder --env="DISPLAY" --net=host psychopy
+    docker run --rm -it -v $(pwd):/usr/src/sharedfolder -v /tmp/.X11-unix:/tmp/.X11-unix --env="DISPLAY" --net=host psychopy
     ```
 
     PsychoPy should now start.
@@ -107,11 +107,15 @@ export PULSE_SERVER=XXX.XXX.XXX.XXX
 docker run --rm -it -v $(pwd):/usr/src/sharedfolder -e PULSE_SERVER=$PULSE_SERVER -e PULSE_COOKIE=/home/pulseaudio/.config/pulse/cookie -v ~/.config/pulse/:/home/pulseaudio/.config/pulse/ --env="DISPLAY" --net=host psychopy
 ```
 
-Audio not yet working in PsychoPy but it works in other apps (e.g. Firefox). Check audio in Firefox running in the same Docker container.
+Audio not yet working in PsychoPy but it works in other apps (e.g. Firefox). Check audio with Firefox running in the same Docker container (e.g. watch video on youtube).
 
 ```sh
 docker run --rm -it -v $(pwd):/usr/src/sharedfolder -e PULSE_SERVER=$PULSE_SERVER -e PULSE_COOKIE=/home/pulseaudio/.config/pulse/cookie -v ~/.config/pulse/:/home/pulseaudio/.config/pulse/ --env="DISPLAY" --net=host psychopy firefox
 ```
+
+## Issues
+
+- Keys presses are not detected in PsychoPy.
 
 ## Debug
 
