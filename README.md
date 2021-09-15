@@ -86,19 +86,21 @@ To get audio from the container passing through to macOS, you need to install `p
 ```sh
 brew install pulseaudio
 
+# start pulseaudio daemon
+pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon
+#pulseaudio --start
+
 # https://askubuntu.com/questions/14077/how-can-i-change-the-default-audio-device-from-command-line
 # find audio output sources
 pacmd list-sinks
 
-# set default audio output on macOS
+# set default audio output on macOS using index
+# pacmd set-default-sink <index>
 pacmd set-default-sink 1
-
-# start pulseaudio daemon
-pulseaudio --load=module-native-protocol-tcp --exit-idle-time=-1 --daemon
 
 # defaults can also be changed in file `default.pa` 
 # edit file to change pulseaudio settings
-pico $(brew --prefix pulseaudio)/etc/pulse/default.pa
+# pico $(brew --prefix pulseaudio)/etc/pulse/default.pa
 ```
 
 Start container then with this command.
@@ -110,6 +112,7 @@ Note: replace XXX.XXX.XXX.XXX with ip address of your computer (host).
 export PULSE_SERVER=XXX.XXX.XXX.XXX
 
 docker run --rm -it \
+    --privileged \
     -v $(pwd):/usr/src/sharedfolder \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -e PULSE_SERVER=$PULSE_SERVER \
