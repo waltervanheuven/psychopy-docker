@@ -32,28 +32,15 @@ XAuthLocation /opt/X11/bin/xauth
 
 Start PsychoPy in docker container with shared local folder and network.
 
-Type in `Terminal` app:
+In `Terminal` or `iTerm` app:
 
-1. enable_iglx (needed?)
-
-    ```sh
-    # mac
-    # check if enable_iglx is 1
-    defaults read org.xquartz.X11 enable_iglx
-    defaults read org.macosforge.xquartz.X11 enable_iglx
-
-    # both should be 1? if 0 set them to 1
-    # defaults write org.xquartz.X11 enable_iglx -bool true
-    # defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
-    ```
-
-2. Enable Xhost, which should start `XQuartz` on macOS
+1. Enable Xhost, which should start `XQuartz` on macOS
 
     ```sh
     xhost +
     ```
 
-3. Set DISPLAY variable to computer IP address
+2. Set DISPLAY variable to computer IP address
 
     Replace XXX.XXX.XXX.XXX with IP address of host computer. Find IP address of your computer with `ifconfig`.
 
@@ -64,7 +51,7 @@ Type in `Terminal` app:
     export DISPLAY=XXX.XXX.XXX.XXX:0
     ```
 
-4. Run docker container with shared folder and network
+3. Run docker container with shared folder and network
 
     ```sh
     docker run --rm -it \
@@ -129,7 +116,7 @@ Audio not yet working in PsychoPy but it works in other apps (e.g. Firefox). Che
 docker run --rm -it \
     -v $(pwd):/usr/src/sharedfolder \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -e PULSE_SERVER=$($PULSE_SERVER) \
+    -e PULSE_SERVER=$PULSE_SERVER \
     -e PULSE_COOKIE=/home/pulseaudio/.config/pulse/cookie \
     -v ~/.config/pulse/:/home/pulseaudio/.config/pulse/ \
     --env="DISPLAY" \
@@ -139,7 +126,7 @@ docker run --rm -it \
 
 ## Issues
 
-- Keys presses are not detected in PsychoPy.
+- Keys presses are not detected in PsychoPy!
 
 ## Debug
 
