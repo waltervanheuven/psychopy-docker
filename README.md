@@ -17,7 +17,7 @@ docker build -t psychopy -f Dockerfile/DockerfileSSP .
 # image with Ubuntu 22.04
 # PsychoPy 2022.1.2
 #
-# Unfortunately, there is an issue issue with installing PyQT5.
+# Unfortunately, PyQT5 fails to install.
 # error: module 'sipbuild.api' has no attribute 'prepare_metadata_for_build_wheel'
 #
 # docker build -t psychopy -f Dockerfile/Dockerfile .
