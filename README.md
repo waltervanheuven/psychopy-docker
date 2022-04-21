@@ -1,18 +1,27 @@
 # PsychoPy running in a Docker container
 
-Instructions to create a [docker](https://www.docker.com) container that runs the latest version (v2021.2.3) of [PsychoPy](https://www.psychopy.org).
+Instructions to create a [docker](https://www.docker.com) container that runs [PsychoPy](https://www.psychopy.org) on Ubuntu 20.04.
 
-Container should work on Intel (x64) and Arm (aarch64/ARM64/Apple Silicon) computers.
+Container tested on Apple Silicon Mac (aarch64/ARM64). However, container should also work on Intel Macs and PCs.
 
-Note. This is work in progress. Tested so far only on an M1 Mac.
+Please note that this docker image is work in progress. Tested so far only with an M1 MacBook Pro running macOS Monterey 12.3.1 and Docker 4.7.1.
 
 ## 1. Create docker image
 
 ```bash
-docker build -t psychopy -f Dockerfile/Dockerfile .
+# using Python venv with system-site-packages
+# installs PsychoPy 2021.2.3
+# GUI works, however iohub doesn't work
+#
+docker build -t psychopy -f Dockerfile/DockerfileSSP .
+
+# PsychoPy 2022.1.2 with all libraries installed using Python 3.9 and pip
+# psychopy fails to start
+#
+# docker build -t psychopy -f Dockerfile/Dockerfile .
 ```
 
-Please note that this image will take a while to create.
+Please note that it will take a while to create the docker image.
 
 ## 2. Install X11
 
@@ -126,7 +135,13 @@ docker run --rm -it \
 
 ## Issues
 
-- Keys presses are not detected in PsychoPy!
+- iohub not working. Therefore, keys presses are not detected.
+
+Error:
+
+```txt
+RECORD extension not found. ioHub can not use python Xlib. Exiting....
+```
 
 ## Debug
 
@@ -136,4 +151,11 @@ docker run --rm -it \
 
     ```sh
     docker run --rm -it -v $(pwd):/usr/src/psychopy --env="DISPLAY" --net=host psychopy bash
+    ```
+
+    In container activate Python venv to start PsychoPy.
+
+    ```sh
+    source ~/venv/py3/bin/activate
+    psychopy
     ```
