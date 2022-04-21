@@ -1,4 +1,4 @@
-# PsychoPy running in a Docker container with Unbuntu
+# PsychoPy running in a Docker container with Ubuntu
 
 Instructions to create a [docker](https://www.docker.com) container that runs [PsychoPy](https://www.psychopy.org) on Ubuntu 20.04.
 
