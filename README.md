@@ -137,7 +137,7 @@ docker run --rm -it \
 
 ## Issues
 
-- [iohub](https://www.psychopy.org/api/iohub/starting.html) not working. Therefore, keys presses are not detected when using iohub.
+- [iohub](https://www.psychopy.org/api/iohub/starting.html) not working. Therefore, key presses are not detected when using iohub.
 
 Error:
 
