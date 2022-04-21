@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get upgrade -y
@@ -19,8 +19,8 @@ SHELL ["/bin/bash", "-c"]
 
 RUN apt-get install -y xpra xserver-xorg-video-dummy xvfb xauth libgl1-mesa-dri && \
     apt-get install -y libportaudio2 libwebkit2gtk-4.0-37 libasound2-dev alsa-utils alsa-oss && \
-    apt-get install -y python3.9 python3.9-dev python3.9-venv && \
-    apt-get install -y python3-pip python-xlib && \
+    apt-get install -y python3 python3-dev python3-venv && \
+    apt-get install -y python3-pip python3-xlib && \
     apt-get install -y git wget && \
     apt-get install -y libusb-1.0-0-dev libsndfile1-dev && \
     apt-get install -y portaudio19-dev python3-pyaudio libportmidi-dev liblo-dev && \
@@ -28,9 +28,9 @@ RUN apt-get install -y xpra xserver-xorg-video-dummy xvfb xauth libgl1-mesa-dri 
     apt-get install -y python3-pygame && \
     apt-get install -y libhdf5-serial-dev && \
     apt-get install -y libx11-dev libglib2.0-dev libgtk-3-dev libtiff-dev && \
-    apt-get install -y qt5-default ffmpeg && \
+    apt-get install -y ffmpeg && \
     apt-get install -y libgl1-mesa-glx mesa-utils x11-xserver-utils dbus-x11 && \
-    apt-get install -y firefox libpci3
+    apt-get install -y firefox libpci3 nano
 
 RUN apt-get install -y swig
 

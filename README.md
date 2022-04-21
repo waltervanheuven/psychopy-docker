@@ -9,13 +9,15 @@ Please note that this docker image is work in progress. Tested so far only with 
 ## 1. Create docker image
 
 ```bash
+# image with Ubuntu 20.04
 # using Python venv with system-site-packages
 # installs PsychoPy 2021.2.3
 # GUI works, however iohub doesn't work
 #
 docker build -t psychopy -f Dockerfile/DockerfileSSP .
 
-# PsychoPy 2022.1.2 with all libraries installed using Python 3.9 and pip
+# image with Ubuntu 22.04
+# PsychoPy 2022.1.2 with all libraries installed using Python 3.10 and pip
 # psychopy fails to start
 #
 # docker build -t psychopy -f Dockerfile/Dockerfile .
