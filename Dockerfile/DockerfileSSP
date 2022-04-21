@@ -9,7 +9,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y xpra xserver-xorg-video-dummy xvfb xauth libgl1-mesa-dri && \
     apt-get install -y libportaudio2 libwebkit2gtk-4.0-37 libasound2-dev alsa-utils alsa-oss && \
-    apt-get install -y python3-pip python-xlib && \
+    apt-get install -y python3-pip python-xlib python3-xlib && \
     apt-get install -y python3.8-venv && \
     apt-get install -y git wget && \
     apt-get install -y libusb-1.0-0-dev libsndfile1-dev && \
@@ -25,7 +25,7 @@ RUN apt-get update && apt-get upgrade -y && \
 
 # create python3 VENV
 RUN python3 -m venv --system-site-packages ~/venv/py3
-RUN . ~/venv/py3/bin/activate && pip install --upgrade pip setuptools wheel
+RUN . ~/venv/py3/bin/activate && pip install --upgrade pip setuptools wheel numpy scipy
 
 # install portaudio python library from source
 RUN mkdir tmp

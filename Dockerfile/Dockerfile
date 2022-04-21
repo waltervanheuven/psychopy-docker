@@ -39,7 +39,7 @@ RUN apt-get install -y libsdl2-2.0 libxcb-xinerama0
 
 # create python3 VENV
 #RUN python3 -m venv --system-site-packages ~/venv/py3
-RUN python3.9 -m venv ~/venv/py3
+RUN python3 -m venv ~/venv/py3
 RUN . ~/venv/py3/bin/activate && pip install --upgrade pip setuptools wheel numpy scipy
 
 # install portaudio python library from source
