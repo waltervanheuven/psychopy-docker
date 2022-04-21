@@ -19,7 +19,7 @@ SHELL ["/bin/bash", "-c"]
 
 RUN apt-get install -y xpra xserver-xorg-video-dummy xvfb xauth libgl1-mesa-dri && \
     apt-get install -y libportaudio2 libwebkit2gtk-4.0-37 libasound2-dev alsa-utils alsa-oss && \
-    apt-get install -y python3 python3-dev python3-venv && \
+    apt-get install -y python3.9 python3-dev python3-venv && \
     apt-get install -y python3-pip python3-xlib && \
     apt-get install -y git wget && \
     apt-get install -y libusb-1.0-0-dev libsndfile1-dev && \
@@ -41,6 +41,8 @@ RUN apt-get install -y libsdl2-2.0 libxcb-xinerama0
 #RUN python3 -m venv --system-site-packages ~/venv/py3
 RUN python3 -m venv ~/venv/py3
 RUN . ~/venv/py3/bin/activate && pip install --upgrade pip setuptools wheel numpy scipy
+
+RUN . ~/venv/py3/bin/activate && python -v
 
 # install portaudio python library from source
 RUN mkdir tmp
@@ -68,7 +70,8 @@ COPY requirements.txt ./
 RUN . ~/venv/py3/bin/activate && pip install --no-cache-dir -r requirements.txt
 
 # install PyQt5
-RUN . ~/venv/py3/bin/activate && pip install PyQt5
+RUN . ~/venv/py3/bin/activate && pip install pyqt5-sip pyqt5-tools PyQt5==5.15.2
+#RUN . ~/venv/py3/bin/activate && pip install pyqt6
 
 # install psychopy from source
 #RUN . ~/venv/py3/bin/activate && pip install psychopy

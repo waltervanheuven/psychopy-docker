@@ -1,10 +1,8 @@
-# PsychoPy running in a Docker container
+# PsychoPy running in a Docker container with Unbuntu
 
 Instructions to create a [docker](https://www.docker.com) container that runs [PsychoPy](https://www.psychopy.org) on Ubuntu 20.04.
 
-Container tested on Apple Silicon Mac (aarch64/ARM64). However, container should also work on Intel Macs and PCs.
-
-Please note that this docker image is work in progress. Tested so far only with an M1 MacBook Pro running macOS Monterey 12.3.1 and Docker 4.7.1.
+Please note that dockerfiles are work in progress. Tested so far only with an M1 MacBook Pro running macOS Monterey 12.3.1 and Docker 4.7.1. Dockerfile should also work on Intel computers.
 
 ## 1. Create docker image
 
@@ -17,8 +15,10 @@ Please note that this docker image is work in progress. Tested so far only with 
 docker build -t psychopy -f Dockerfile/DockerfileSSP .
 
 # image with Ubuntu 22.04
-# PsychoPy 2022.1.2 with all libraries installed using Python 3.10 and pip
-# psychopy fails to start
+# PsychoPy 2022.1.2
+#
+# Unfortunately, there is an issue issue with installing PyQT5.
+# error: module 'sipbuild.api' has no attribute 'prepare_metadata_for_build_wheel'
 #
 # docker build -t psychopy -f Dockerfile/Dockerfile .
 ```
@@ -137,7 +137,7 @@ docker run --rm -it \
 
 ## Issues
 
-- iohub not working. Therefore, keys presses are not detected.
+- [iohub](https://www.psychopy.org/api/iohub/starting.html) not working. Therefore, keys presses are not detected when using iohub.
 
 Error:
 
