@@ -40,6 +40,14 @@ Add `XAuthLocation` to `./ssh.config`:
 XAuthLocation /opt/X11/bin/xauth
 ```
 
+Enable indirect OpenGL rendering with X11 forwarding
+
+```sh
+defaults write org.macosforge.xquartz.X11 enable_iglx -bool true
+```
+
+Unfortunately, XQuartz only supports OpenGL 1.4.
+
 ## 3. Start PsychoPy in Docker container
 
 Start PsychoPy in docker container with shared local folder and network.
