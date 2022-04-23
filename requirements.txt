@@ -20,7 +20,6 @@ cffi
 pysoundcard
 pysoundfile
 seaborn
-psychopy_ext
 python-bidi
 pyserial
 pyparallel
@@ -33,7 +32,6 @@ sphinx
 numexpr
 Cython
 ffmpeg
-wxPython
 SpeechRecognition
 pyfilesec
 Xlib
@@ -51,7 +49,6 @@ glfw
 msgpack-numpy
 python-vlc
 markdown-it-py
-pygame
 soundfile
 freetype-py
 google-api-core

@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:21.04
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get upgrade -y
@@ -32,7 +32,10 @@ RUN apt-get install -y xpra xserver-xorg-video-dummy xvfb xauth libgl1-mesa-dri 
     apt-get install -y libgl1-mesa-glx mesa-utils x11-xserver-utils dbus-x11 && \
     apt-get install -y firefox libpci3 nano
 
-RUN apt-get install -y swig
+RUN apt-get install -y libgstreamer-gl1.0-0 python3-gst-1.0 ubuntu-restricted-extras python-dev bison
+RUN apt-get install -y autoconf libtool-bin swig freeglut3 freeglut3-dev
+RUN apt-get install -y libgl1-mesa-dev libglu1-mesa-dev libgstreamer-plugins-base1.0-dev
+RUN apt-get install -y libjpeg-dev libnotify-dev libsdl2-dev libsm-dev libwebkit2gtk-4.0-dev libxtst-dev
 
 # https://discourse.psychopy.org/t/installation-headaches-and-partly-fixes-on-ubuntu-20-04/16476
 RUN apt-get install -y libsdl2-2.0 libxcb-xinerama0
@@ -70,15 +73,15 @@ COPY requirements.txt ./
 RUN . ~/venv/py3/bin/activate && pip install --no-cache-dir -r requirements.txt
 
 # install PyQt5
-RUN . ~/venv/py3/bin/activate && pip install pyqt5-sip pyqt5-tools PyQt5==5.15.2
+#RUN . ~/venv/py3/bin/activate && pip install pyqt5-sip pyqt5-tools PyQt5==5.15.2
 #RUN . ~/venv/py3/bin/activate && pip install pyqt6
 
 # install psychopy from source
 #RUN . ~/venv/py3/bin/activate && pip install psychopy
-RUN cd tmp && . ~/venv/py3/bin/activate && \
-    git clone https://github.com/psychopy/psychopy.git && \
-    cd psychopy && \
-    python setup.py install
+#RUN cd tmp && . ~/venv/py3/bin/activate && \
+#    git clone https://github.com/psychopy/psychopy.git && \
+#    cd psychopy && \
+#    python setup.py install
 
 # https://discourse.psychopy.org/t/installation-headaches-and-partly-fixes-on-ubuntu-20-04/16476/7
 RUN groupadd --force psychtoolbox
@@ -88,5 +91,5 @@ RUN echo "@psychtoolbox   -  nice       -20" > /etc/security/limits.d/99-psychop
 RUN echo "@psychtoolbox   -  rtprio      50" >> /etc/security/limits.d/99-psychopylimits.conf
 RUN echo "@psychtoolbox   -  memlock     unlimited" >> /etc/security/limits.d/99-psychopylimits.conf
 
-COPY start_psychopy.sh ./
-CMD ["sh", "start_psychopy.sh"]
+#COPY start_psychopy.sh ./
+#CMD ["sh", "start_psychopy.sh"]

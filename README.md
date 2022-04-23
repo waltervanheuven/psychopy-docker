@@ -1,16 +1,17 @@
 # PsychoPy running in a Docker container with Ubuntu
 
-Instructions to create a [docker](https://www.docker.com) container that runs [PsychoPy](https://www.psychopy.org) on Ubuntu 20.04.
+Instructions to create a [docker](https://www.docker.com) container that runs [PsychoPy](https://www.psychopy.org) on Ubuntu 21.04.
 
 Please note that dockerfiles are work in progress. Tested so far only with an M1 MacBook Pro running macOS Monterey 12.3.1 and Docker 4.7.1. Dockerfile should also work on Intel computers.
 
 ## 1. Create docker image
 
 ```bash
-# image with Ubuntu 20.04
+# image with Ubuntu 21.04
 # using Python venv with system-site-packages
-# installs PsychoPy 2021.2.3
-# GUI works, however iohub doesn't work
+# installs PsychoPy 2022.1.3
+#
+# GUI works but issues with PTB and ioHub
 #
 docker build -t psychopy -f Dockerfile/DockerfileSSP .
 
@@ -68,6 +69,9 @@ In `Terminal` or `iTerm` app:
     docker run --rm -it \
         -v $(pwd):/usr/src/sharedfolder \
         -v /tmp/.X11-unix:/tmp/.X11-unix \
+        -e PSYCH_XINITTHREADS=1 \
+        -e XDG_RUNTIME_DIR=/tmp/ \
+        -e RUNLEVEL=5 \
         --env="DISPLAY" \
         --net=host \
         psychopy
@@ -116,6 +120,9 @@ docker run --rm -it \
     -e PULSE_SERVER=$PULSE_SERVER \
     -e PULSE_COOKIE=/home/pulseaudio/.config/pulse/cookie \
     -v ~/.config/pulse/:/home/pulseaudio/.config/pulse/ \
+    -e PSYCH_XINITTHREADS=1 \
+    -e XDG_RUNTIME_DIR=/tmp/ \
+    -e RUNLEVEL=2 \
     --env="DISPLAY" \
     --net=host \
     psychopy
@@ -130,6 +137,9 @@ docker run --rm -it \
     -e PULSE_SERVER=$PULSE_SERVER \
     -e PULSE_COOKIE=/home/pulseaudio/.config/pulse/cookie \
     -v ~/.config/pulse/:/home/pulseaudio/.config/pulse/ \
+    -e PSYCH_XINITTHREADS=1 \
+    -e XDG_RUNTIME_DIR=/tmp/ \
+    -e RUNLEVEL=2 \    
     --env="DISPLAY" \
     --net=host \
     psychopy firefox
@@ -137,11 +147,13 @@ docker run --rm -it \
 
 ## Issues
 
-- [iohub](https://www.psychopy.org/api/iohub/starting.html) not working. Therefore, key presses are not detected when using iohub.
-
-Error:
+Errors:
 
 ```txt
+PTB-CRITICAL: In call to PsychSetThreadPriority(): Failed to set new basePriority 2, tweakPriority 1, effective 1 [REALTIME] for thread (nil) provided!
+
+PsychHID: KbQueueStart: Failed to switch to realtime priority [Operation not permitted].
+
 RECORD extension not found. ioHub can not use python Xlib. Exiting....
 ```
 
