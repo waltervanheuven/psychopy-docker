@@ -34,7 +34,7 @@ Download and install latest [XQuartz](https://www.xquartz.org).
 
 Enable `Allow connections from network clients` in X11 Preferences -> Security.
 
-Add `XAuthLocation` to `./ssh.config`:
+Add following line to file `~/.ssh/config`.
 
 ```txt
 XAuthLocation /opt/X11/bin/xauth
@@ -82,6 +82,7 @@ In `Terminal` or `iTerm` app:
         -e RUNLEVEL=5 \
         --env="DISPLAY" \
         --net=host \
+        --user psychopy \
         psychopy
     ```
 
