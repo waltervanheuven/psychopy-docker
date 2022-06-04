@@ -14,7 +14,8 @@ SHELL ["/bin/bash", "-c"]
 WORKDIR /usr/src
 
 # install libraries
-RUN apt-get install -y xpra xserver-xorg-video-dummy xvfb xauth libgl1-mesa-dri && \
+RUN apt-get install -y apt-utils && \
+    apt-get install -y xpra xserver-xorg-video-dummy xvfb xauth libgl1-mesa-dri && \
     apt-get install -y libportaudio2 libwebkit2gtk-4.0-37 libasound2-dev alsa-utils alsa-oss && \
     apt-get install -y make gcc g++ git wget && \
     apt-get install -y libusb-1.0-0-dev libsndfile1-dev && \
